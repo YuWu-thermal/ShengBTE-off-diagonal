@@ -12,7 +12,7 @@ Reference:
 
 Yu Wu et al.,  [J. Phys. Chem. Lett. 2023, 14, 11465−11473](https://doi.org/10.1021/acs.jpclett.3c02940)
 
-## The original ShenbBTE:
+## The original ShengBTE:
 
 https://github.com/FourPhonon/FourPhonon
 
