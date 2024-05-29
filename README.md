@@ -4,6 +4,10 @@
 
 FourPhonon1.0
 
+## Output:
+
+BTE.Kappa_Glass_like_RTA
+
 ## Authors and references:
 
 Yu Wu: wuyu9573@qq.com
