@@ -15,6 +15,7 @@ Yu Wu: wuyu9573@qq.com
 Reference:
 
 Yu Wu et al.,  [J. Phys. Chem. Lett. 2023, 14, 11465−11473](https://doi.org/10.1021/acs.jpclett.3c02940)
+Yu Wu et al.,  [Phys. Rev. B 2024, 109, 214307](https://doi.org/10.1103/PhysRevB.109.214307)
 
 ## The original ShengBTE:
 
