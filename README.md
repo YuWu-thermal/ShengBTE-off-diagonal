@@ -2,7 +2,7 @@
 
 ## $\color{red}{\rm{Attention}}$：
 
-An issue in the phonon_routines.f90 file uploaded earlier have been updated on date 6.24
+An issue in the phonon_routines.f90 file uploaded earlier have been updated on date 2024/6/24
 
 ## Based version:
 
