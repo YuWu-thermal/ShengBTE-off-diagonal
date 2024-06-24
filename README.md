@@ -1,5 +1,9 @@
 # An extension module to ShengBTE for computing glass-like thermal conductivity
 
+## $\color{red}{Attention}$：
+
+An issue in the phonon_routines.f90 file uploaded earlier have been updated on date 6.24
+
 ## Based version:
 
 FourPhonon1.0
