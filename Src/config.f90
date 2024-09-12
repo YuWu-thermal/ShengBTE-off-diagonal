@@ -47,9 +47,9 @@ module config
   namelist /parameters/ T,scalebroad,rmin,rmax,dr,maxiter,nticks,eps,&
            T_min,T_max,T_step,omega_max,Length
   logical :: nonanalytic,convergence,isotopes,autoisotopes,nanowires,onlyharmonic,espresso,normal,umklapp,&
-             four_phonon,four_phonon_iteration,nanolength
+             four_phonon,four_phonon_iteration,nanolength,el_ph
   namelist /flags/ nonanalytic,convergence,isotopes,autoisotopes,&
-       nanowires,onlyharmonic,espresso,normal,umklapp,four_phonon,four_phonon_iteration,nanolength
+       nanowires,onlyharmonic,espresso,normal,umklapp,four_phonon,four_phonon_iteration,nanolength,el_ph
 
   integer(kind=4) :: nbands,nptk,nwires
   real(kind=8) :: cgrid,V,rV,rlattvec(3,3),slattvec(3,3)
@@ -178,6 +178,7 @@ contains
     nanowires=.false.
     onlyharmonic=.false.
     espresso=.false.
+	el_ph=.false.
     
     ! Four-phonon namelist
     four_phonon=.false.

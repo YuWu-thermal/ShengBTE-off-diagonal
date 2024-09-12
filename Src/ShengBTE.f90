@@ -83,9 +83,14 @@ program ShengBTE
   !Modified by WuYu 2023/1/30
   real(kind=8),allocatable :: ThConductivity_g(:,:,:)
   real(kind=8),allocatable :: ThConductivityMode_g(:,:,:,:,:)
+  real(kind=8),allocatable :: ThConductivityMode_g2(:,:,:,:)
   
-  real(kind=8),allocatable :: ticks(:),cumulative_kappa(:,:,:,:)
+  real(kind=8),allocatable :: ticks(:),cumulative_kappa(:,:,:,:),cumulative_kappa_g(:,:,:,:)
  
+  !Variables related to el_ph scatterings
+  !Modified by WuYu 2022/9/21
+  real(kind=8),allocatable :: epw_sr(:,:)
+  INTEGER:: nband, nk
 
 
   integer(kind=4) :: Ntri
@@ -149,6 +154,7 @@ program ShengBTE
   !Modified by WuYu 2023/1/30
   allocate(ThConductivity_g(nbands,3,3))
   allocate(ThConductivityMode_g(nptk,nbands,nbands,3,3))
+  allocate(ThConductivityMode_g2(nptk,nbands,3,3))
   allocate(kappa_wires(nbands,nwires))
   allocate(kappa_wires_reduce(nbands,nwires))
   allocate(Nequi(nptk))
@@ -373,6 +379,9 @@ program ShengBTE
   allocate(rate_scatt_minusminus_N(Nbands,Nlist))
   allocate(rate_scatt_minusminus_U(Nbands,Nlist))
   
+  !Give dimension to epw_sr
+  !Modified by WuYu 2022/9/21
+  allocate(epw_sr(Nbands,Nlist))
 
 
   allocate(tau_zero(Nbands,Nlist))
@@ -397,6 +406,9 @@ program ShengBTE
   rate_scatt_minusminus_N=0.d00
   rate_scatt_minusminus_U=0.d00
   
+  !give initial value to epw_sr  
+  !Modified by WuYu 2022/9/21
+  epw_sr=0.d00
   
 
   allocate(radnw_range(nwires))
@@ -721,6 +733,19 @@ program ShengBTE
         print *, "Info: Temperature=", T
         write(aux2,"(I0)") NINT(T)
         
+     !read el_ph scatterings from epw_sr file  
+     !Modified by WuYu 2022/9/21
+        if (el_ph) then
+           open(12,File="epw_sr_"//trim(adjustl(aux2)),status="old")
+           read(12,*) nband, nk
+           do i=1,nband
+              do j=1,nk
+              read(12,*) epw_sr(i,j)
+              enddo
+           enddo
+           write(*,*) "epw_sr_"//trim(adjustl(aux2))//" file has been read"
+        end if
+      !!!
       
         path="T"//trim(adjustl(aux2))//"K"
         call change_directory(trim(adjustl(path))//C_NULL_CHAR)
@@ -1014,15 +1039,36 @@ program ShengBTE
         open(2001,file="BTE.kappa",status="replace")
         open(2002,file="BTE.kappa_tensor",status="replace")
         open(2003,file="BTE.kappa_scalar",status="replace")
+		open(734,file="BTE.kappa_glass_resolved",status="replace")
         call TConduct(energy,velocity,F_n,ThConductivity,ThConductivityMode)
 		! calculate the glass-like lattice thermal conductivity
-        ! Modified by WuYu 2023/1/30
-        call TConduct_g(energy,velocity_g,tau_g,ThConductivity_g,ThConductivityMode_g)
-        do ll=1,nbands
+	    ! Modified by WuYu 2023/1/30
+		call TConduct_g(energy,velocity_g,tau_g,ThConductivity_g,ThConductivityMode_g,ThConductivityMode_g2)
+		do ll=1,nbands
            call symmetrize_tensor(ThConductivity_g(ll,:,:))
         end do
-        write(733,"(F7.1,9E14.5)") T,sum(ThConductivity_g,dim=1)
+		write(733,"(F7.1,9E14.5)") T,sum(ThConductivity_g,dim=1)
         flush(733)
+
+        do ll=1,nbands
+           do i1=1,nbands
+                           do i2=1,nbands
+           call symmetrize_tensor(ThConductivityMode_g(ll,i1,i2,:,:))
+        end do	
+        end do
+        end do
+	
+		do ll = 1,Nlist
+			do i1=1,nbands
+			   do i2=1,nbands
+			       if(i1 /= i2) then
+				       write(734,"(2E20.10,2E20.10,9E14.5)") energy(list(ll),i1),energy(list(ll),i2),ThConductivityMode_g(ll,i1,i2,:,:)
+				   end if
+			   end do
+			end do
+		end do
+		flush(734)
+		
 		
 		
         do ll=1,nbands
@@ -1075,6 +1121,7 @@ program ShengBTE
         close(2001)
         close(2002)
         close(2003)
+        
 
         ! Write out the converged scattering rates.
         do ll=1,Nlist
@@ -1165,6 +1212,25 @@ program ShengBTE
         end do
         close(2002)
         deallocate(ticks,cumulative_kappa)
+        
+        
+        ! WuYu 2023.11.8 
+        ! Cumulative glass thermal conductivity vs angular frequency.
+        allocate(ticks(nticks),cumulative_kappa_g(nbands,3,3,nticks))
+        call CumulativeTConductOmega_g(energy,velocity_g,tau_g,ticks,cumulative_kappa_g)
+        do ii=1,nticks
+           do ll=1,nbands
+              call symmetrize_tensor(cumulative_kappa_g(ll,:,:,ii))
+           end do
+        end do
+        write(aux,"(I0)") 9*nbands+1
+        open(1789,file="BTE.cumulative_Glass_kappaVsOmega_tensor",status="replace")
+        do ii=1,nticks
+           write(1789,"(10E20.10)") ticks(ii),&
+                sum(cumulative_kappa_g(:,:,:,ii),dim=1)
+        end do
+        close(1789)
+        deallocate(ticks,cumulative_kappa_g)
      end if
 
      call MPI_BARRIER(MPI_COMM_WORLD,ierr)
