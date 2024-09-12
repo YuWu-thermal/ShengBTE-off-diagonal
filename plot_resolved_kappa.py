@@ -13,9 +13,8 @@ name1='BTE.kappa_glass_resolved'
 data1= pd.read_csv(name1,sep='\s+',header=None)
 
 data1.columns=['w1','w2','v1','v2','v3','v4','v5','v6','v7','v8','v9']
-data1['v9_sum'] = data1.groupby(['w1','w2'])['v9'].transform('sum')
-#data1['avg'] = (data1['v1']+ data1['v5']+ data1['v9'])/3
-data1['avg'] = data1['v1']
+data1['avg'] = (data1['v1']+ data1['v5']+ data1['v9'])/3
+#data1['avg'] = data1['v1']
 data2 = data1[data1['avg']>10**(-10)]
 # Frequency unit: THz
 plt.scatter(data2['w1']*0.15915494327376,data2['w2']*0.15915494327376,c=data2['avg'],
