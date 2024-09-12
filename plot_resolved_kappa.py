@@ -17,6 +17,7 @@ data1['v9_sum'] = data1.groupby(['w1','w2'])['v9'].transform('sum')
 #data1['avg'] = (data1['v1']+ data1['v5']+ data1['v9'])/3
 data1['avg'] = data1['v1']
 data2 = data1[data1['avg']>10**(-10)]
+# Frequency unit: THz
 plt.scatter(data2['w1']*0.15915494327376,data2['w2']*0.15915494327376,c=data2['avg'],
 norm=colors.LogNorm(vmax=10**(-4),vmin=10**(-10)),cmap='jet',s=0.1)
 plt.colorbar()
