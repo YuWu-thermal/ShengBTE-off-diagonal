@@ -87,9 +87,6 @@ program ShengBTE
   
   real(kind=8),allocatable :: ticks(:),cumulative_kappa(:,:,:,:),cumulative_kappa_g(:,:,:,:)
  
-  !Variables related to el_ph scatterings
-  !Modified by WuYu 2022/9/21
-  real(kind=8),allocatable :: epw_sr(:,:)
   INTEGER:: nband, nk
 
 
@@ -379,9 +376,6 @@ program ShengBTE
   allocate(rate_scatt_minusminus_N(Nbands,Nlist))
   allocate(rate_scatt_minusminus_U(Nbands,Nlist))
   
-  !Give dimension to epw_sr
-  !Modified by WuYu 2022/9/21
-  allocate(epw_sr(Nbands,Nlist))
 
 
   allocate(tau_zero(Nbands,Nlist))
@@ -405,10 +399,6 @@ program ShengBTE
   rate_scatt_minusminus=0.d00
   rate_scatt_minusminus_N=0.d00
   rate_scatt_minusminus_U=0.d00
-  
-  !give initial value to epw_sr  
-  !Modified by WuYu 2022/9/21
-  epw_sr=0.d00
   
 
   allocate(radnw_range(nwires))
@@ -733,19 +723,6 @@ program ShengBTE
         print *, "Info: Temperature=", T
         write(aux2,"(I0)") NINT(T)
         
-     !read el_ph scatterings from epw_sr file  
-     !Modified by WuYu 2022/9/21
-        if (el_ph) then
-           open(12,File="epw_sr_"//trim(adjustl(aux2)),status="old")
-           read(12,*) nband, nk
-           do i=1,nband
-              do j=1,nk
-              read(12,*) epw_sr(i,j)
-              enddo
-           enddo
-           write(*,*) "epw_sr_"//trim(adjustl(aux2))//" file has been read"
-        end if
-      !!!
       
         path="T"//trim(adjustl(aux2))//"K"
         call change_directory(trim(adjustl(path))//C_NULL_CHAR)
