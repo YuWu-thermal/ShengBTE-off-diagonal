@@ -1027,7 +1027,7 @@ program ShengBTE
 		write(733,"(F7.1,9E14.5)") T,sum(ThConductivity_g,dim=1)
         flush(733)
 
-        do ll=1,nbands
+        do ll=1,nptk
            do i1=1,nbands
                            do i2=1,nbands
            call symmetrize_tensor(ThConductivityMode_g(ll,i1,i2,:,:))
