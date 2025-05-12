@@ -335,7 +335,7 @@ contains
 				 velocities_g(ik,i,j,ip)=real(dot_product(dyn_total(:,i),&
 					  matmul(ddyn_total(:,:,ip),dyn_total(:,j))))
 			  end do
-			  velocities_g(ik,i,j,:)=velocities_g(ik,i,j,:)/(2.*sqrt(omegas(ik,i)*omegas(ik,j)))
+                          velocities_g(ik,i,j,:)=velocities_g(ik,i,j,:)/(omegas(ik,i)+omegas(ik,j))
 		  end do
        end do
 	   
