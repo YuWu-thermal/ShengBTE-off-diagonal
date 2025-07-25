@@ -6,10 +6,12 @@ An issue in the phonon_routines.f90 file uploaded earlier have been updated on d
 
 Additional output can be obtained: BTE.cumulative_Glass_kappaVsOmega_tensor, BTE.kappa_glass_resolved 2024/9/12
 
+Implementation of glass-like thermal conductivity in FourPhonon v1.2 (Src2) 2025/7/25
+
 ## Based version:
 
-FourPhonon1.0
-
+Src: FourPhonon v1.0
+Src2: FourPhonon v1.2
 ## Output:
 
 1. BTE.Kappa_Glass_like_RTA
