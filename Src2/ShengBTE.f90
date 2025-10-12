@@ -279,7 +279,7 @@ program ShengBTE
               do i1=1,nbands
                  do i2=1,nbands
                     if(i1 /= i2) then
-                       write(1,"(2E20.10,2E20.10,3E20.10)") energy(list(ll),i1),energy(list(ll),i2),velocity_g(ll,ii,jj,:)
+                       write(1,"(2E20.10,2E20.10,3E20.10)") energy(list(ll),i1),energy(list(ll),i2),velocity_g(ll,i1,i2,:)
                     end if
                  end do
                end do
