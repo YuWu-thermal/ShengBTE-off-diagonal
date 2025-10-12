@@ -263,16 +263,20 @@ program ShengBTE
         end do
      end do
      close(1)
-	 open(1,file="BTE.v_g",status="replace")
-	 !WuYu
-     do ii=1,Nbands
-	    do jj=1,Nbands
-			do ll=1,Nlist
-			   write(1,"(3E20.10)") velocity_g(list(ll),ii,jj,:)
-			end do
-		end do
-     end do
-     close(1)
+
+	    open(1,file="BTE.v_g",status="replace")
+         !WuYu
+
+            do ll = 1,Nlist
+              do i1=1,nbands
+                 do i2=1,nbands
+                    if(i1 /= i2) then
+                       write(1,"(2E20.10,2E20.10,3E20.10)") energy(list(ll),i1),energy(list(ll),i2),velocity_g(ll,i1,i2,:)
+                    end if
+                 end do
+               end do
+        end do
+
 	 
      open(1,file="BTE.v_full",status="replace")
      do ii=1,Nbands
