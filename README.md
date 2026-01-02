@@ -25,10 +25,15 @@ Src2: FourPhonon v1.2
 Yu Wu: wuyu9573@qq.com
 
 Reference:
+Yu Wu et al.,[Nano. Lett. 2025](https://pubs.acs.org/doi/10.1021/acs.nanolett.5c04725)
 
-Yu Wu et al.,  [J. Phys. Chem. Lett. 2023, 14, 11465−11473](https://doi.org/10.1021/acs.jpclett.3c02940)
+Yu Wu et al.,[Adv. Sci. 2025, 12, e06807](https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202506807?af=R)
 
 Yu Wu et al.,  [Phys. Rev. B 2024, 109, 214307](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.109.214307)
+
+Yu Wu et al.,[Adv. Sci. 2024, 11, 2406380](https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202406380)
+
+
 
 ## The original ShengBTE:
 
